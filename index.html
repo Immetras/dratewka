@@ -4,8 +4,29 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dratewka</title>
-    <script src="index.js"></script>
-    <link rel="stylesheet" href="style.css" />
+    <script type="module" src="index.js"></script>
+    <link rel="stylesheet" href="data/style/style.css" />
   </head>
-  <body onload="main()"></body>
+  <body>
+    <div id="main">
+      <div id="name"></div>
+      <div id="images">
+        <div id="location"></div>
+        <div id="compass"></div>
+      </div>
+      <div class="label" id="directions">
+        You can go:
+        <p class="text">WEST, SOUTH, EAST, NORTH</p>
+      </div>
+      <div class="label" id="l-items">
+        You see:
+        <p class="text"></p>
+      </div>
+      <div class="label" id="p-items">
+        You are carrying:
+        <p class="text"></p>
+      </div>
+      <div id="player">What now? <input type="text" name="player" id="player" /></div>
+    </div>
+  </body>
 </html>
