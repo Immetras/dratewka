@@ -20,8 +20,8 @@ div {
   margin: 8px;
 }
 
-#main {
-}
+/* #main {
+} */
 
 #location {
   width: calc(8px * 30);
@@ -38,6 +38,8 @@ div {
 input {
   background-color: black;
   border: none;
+  width: min-content;
+  text-transform: uppercase;
 }
 input:focus-visible {
   outline: none;

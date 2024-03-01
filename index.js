@@ -1,5 +1,7 @@
-console.log("loaded");
+console.log("loaded main");
 
-import level from "./data/js/location_data.js";
+import player from "./static/js/player.js";
 
-console.table(level);
+new player();
+
+// console.table(player);

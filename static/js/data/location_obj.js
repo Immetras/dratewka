@@ -1,4 +1,4 @@
-﻿import Location from "./location.js";
+﻿import Location from "./location_cla.js";
 export default [
   [
     new Location("You are inside a brimstone mine", "11", "rgb(235,211,64)", "0010"),
@@ -41,12 +41,18 @@ export default [
   ],
 
   [
+    new Location(),
+    new Location(),
+    new Location(),
     new Location("You are by a swift stream", "54", "rgb(108,181,242)", "0010"),
     new Location("You are on a street leading forest", "55", "rgb(255,190,99)", "1101"),
     new Location("You are in a woodcutter's backyard", "56", "rgb(255,190,99)", "0100"),
     new Location("You are in a shoemaker's house", "57", "rgb(254,194,97)", "0001"),
   ],
   [
+    new Location(),
+    new Location(),
+    new Location(),
     new Location("You are in a bleak funeral house", "64", "rgb(254,194,97)", "0010"),
     new Location("You are on a path leading to the wood", "26", "rgb(167,245,63)", "1011"),
     new Location("You are at the edge of a forest", "66", "rgb(167,245,63)", "1011"),
