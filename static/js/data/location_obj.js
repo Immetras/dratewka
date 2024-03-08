@@ -1,4 +1,4 @@
-﻿import Location from "./location_cla.js";
+﻿import Location from "../location_cla.js";
 export default [
   [
     new Location("You are inside a brimstone mine", [1, 1], "rgb(235,211,64)", "0010"),
@@ -32,7 +32,7 @@ export default [
 
   [
     new Location("You are in the Wawel Castle", [4, 1], "rgb(255,176,141)", "0010"),
-    new Location("You are inside a dragon's cave", [4, 2], "rgb(198,205,193)", "1010"),
+    new Location("You are inside a dragon's cave", [4, 2], "rgb(198,205,193)", "0010"),
     new Location("A perfect place to set a trap", [4, 3], "rgb(255,176,141)", "1001"),
     new Location("You are by the water mill", [4, 4], "rgb(255,190,99)", "0010"),
     new Location("You are at a main crossroad", [4, 5], "rgb(255,190,99)", "1111"),
