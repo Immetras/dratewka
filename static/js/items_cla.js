@@ -1,8 +1,7 @@
 export default class Item {
-  constructor(id, nameDisplay, type, nameType) {
-    this.id = id;
+  constructor(nameDisplay, type, nameTake) {
     this.nameDisplay = nameDisplay;
     this.type = type;
-    this.nameType = nameType;
+    this.nameTake = nameTake;
   }
 }
