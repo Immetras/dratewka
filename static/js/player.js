@@ -4,7 +4,7 @@ import items from "./data/items_obj.js";
 export default class Player {
   constructor() {
     this.position = [3, 3];
-    this.carrying = [];
+    this.items = { location: {}, player: {} };
 
     this.update();
     this.main();
@@ -14,8 +14,7 @@ export default class Player {
     console.log("loaded player");
 
     console.table(level);
-
-    document.addEventListener("keydown", this.action);
+    window.addEventListener("keydown", this.action);
   }
 
   action = (e) => {
@@ -26,13 +25,15 @@ export default class Player {
       actVal = input.value.toUpperCase();
       input.value = null;
       let tItem = false;
+      let uItem = false;
+      let dItem = false;
 
       switch (actVal.split(" ")[0]) {
         case "W":
         case "WEST":
           if (this.current.canGo[0] == 1) {
             this.position[1]--;
-            this.update();
+            this.display("You are going WEST", true);
           }
           break;
 
@@ -40,7 +41,7 @@ export default class Player {
         case "SOUTH":
           if (this.current.canGo[1] == 1) {
             this.position[0]++;
-            this.update();
+            this.display("You are going SOUTH", true);
           }
           break;
 
@@ -48,7 +49,7 @@ export default class Player {
         case "EAST":
           if (this.current.canGo[2] == 1) {
             this.position[1]++;
-            this.update();
+            this.display("You are going EAST", true);
           }
           break;
 
@@ -56,7 +57,7 @@ export default class Player {
         case "NORTH":
           if (this.current.canGo[3] == 1) {
             this.position[0]--;
-            this.update();
+            this.display("You are going NORTH", true);
           }
           break;
 
@@ -65,14 +66,36 @@ export default class Player {
         case "TAKE":
           !tItem ? (tItem = actVal.replace("TAKE ", "")) : null;
 
-          for (let i = 0; i < this.current.items.length; i++) {
-            const item = items[this.current.items[i]];
-            if (tItem == item.nameTake && item.type) {
-              console.log(`taking ${item.nameDisplay}`);
-              this.carrying = this.current.items[i];
-              this.current.items = this.current.items.slice(0, i).concat(this.current.items(i++));
-              console.table(this.current);
+          for (let i = 0; i < Object.keys(this.items.location).length; i++) {
+            const item = this.items.location[Object.keys(this.items.location)[i]];
+            if (item.nameTake == tItem && item.type) {
+              this.items.player = item;
+              delete this.current.items[Object.keys(this.items.location)[i]];
+              // this.current.items[Object.keys(this.items.location)[i]] = false;
+              this.display(`You are taking ${item.nameDisplay}`, true);
+            } else if (!item.type) {
+              this.display("You can't carry it", true);
+            } else {
+              this.display("There isn't anything like that here", true);
             }
+          }
+
+          break;
+        case "D":
+          dItem = actVal.replace("D ", "");
+        case "DROP":
+          !dItem ? (dItem = actVal.replace("DROP ", "")) : null;
+
+          const item = this.items.player;
+
+          if (Object.keys(item).length > 0) {
+            if (item.nameTake == dItem) {
+              this.current.items[item.id] = true;
+              this.items.player = {};
+              this.display(`You are about to drop ${item.nameDisplay}`, true);
+            }
+          } else {
+            this.display("You are not carrying anything", true);
           }
 
           break;
@@ -83,6 +106,22 @@ export default class Player {
       }
     }
   };
+
+  display(text, change) {
+    const mess = document.getElementById("player");
+    const input = `<input type="text" id="p-input" autofocus onblur="this.focus()" />`;
+    mess.innerText = text;
+    setTimeout(
+      () => {
+        mess.innerText = "Now what?";
+        mess.innerHTML += input;
+        document.getElementById("p-input").focus();
+
+        this.update();
+      },
+      change ? 666 : 0
+    );
+  }
 
   update() {
     this.current = level[this.position[0]][this.position[1]];
@@ -104,21 +143,38 @@ export default class Player {
       dir == 1 ? (directions.innerText += `${dirs[i]},`) : null;
     }
 
-    switch (this.current.items.length) {
+    lItems.innerText = null;
+
+    this.items.location = {};
+
+    switch (Object.keys(this.current.items).length) {
       case 0:
         lItems.innerHTML = "nothing";
         break;
 
       default:
-        for (let i = 0; i < this.current.items.length; i++) {
-          const item = items[this.current.items[i]];
+        for (let i = 0; i < Object.keys(this.current.items).length; i++) {
+          if (this.current.items[Object.keys(this.current.items)[i]] == true) {
+            const item = items[Object.keys(this.current.items)[i]];
+            console.log(this.current.items[Object.keys(this.current.items)[i]]);
 
-          lItems.innerText = `${item.nameDisplay}, `;
+            this.items.location[Object.keys(this.current.items)[i]] = item;
+          }
+        }
+
+        for (let i = 0; i < Object.keys(this.items.location).length; i++) {
+          const item = this.items.location[Object.keys(this.items.location)[i]];
+
+          lItems.innerText += `${item.nameDisplay}, `;
         }
         break;
     }
 
-    // console.table(items);
-    // console.warn(this.current.items);
+    Object.keys(this.items.player).length > 0
+      ? (pItems.innerText = this.items.player.nameDisplay)
+      : (pItems.innerText = "nothing");
+
+    console.table(this.items);
+    console.table(this.current);
   }
 }
